@@ -1,4 +1,6 @@
-// Example data creation
+// Example data creation : For some reason fist instruction is ignored on startup
+
+INSERT INTO ingredient VALUES (NULL, 'Dark rum (Appleton Estate Reserve)');
 INSERT INTO ingredient VALUES (NULL, 'Dark rum (Appleton Estate Reserve)');
 INSERT INTO ingredient VALUES (NULL, 'Fresh lime juice');
 INSERT INTO ingredient VALUES (NULL, 'Simple sirup');
