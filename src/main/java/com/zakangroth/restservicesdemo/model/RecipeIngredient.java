@@ -1,9 +1,6 @@
 package com.zakangroth.restservicesdemo.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -12,6 +9,10 @@ public class RecipeIngredient implements Serializable{
 
     @EmbeddedId
     private RecipeIngredientPk recipeIngredientPk;
+
+    @OneToOne
+    @MapsId("ingredient_id")
+    private Ingredient ingredient;
 
     @Column(name = "quantity")
     private int quantity;
@@ -28,6 +29,14 @@ public class RecipeIngredient implements Serializable{
 
     public void setRecipeIngredientPk(RecipeIngredientPk recipeIngredientPk) {
         this.recipeIngredientPk = recipeIngredientPk;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     public int getQuantity() {
@@ -50,6 +59,7 @@ public class RecipeIngredient implements Serializable{
     public String toString() {
         return "RecipeIngredient{" +
                 "recipeIngredientPk=" + recipeIngredientPk +
+                ", ingredient=" + ingredient +
                 ", quantity=" + quantity +
                 ", unit='" + unit + '\'' +
                 '}';
