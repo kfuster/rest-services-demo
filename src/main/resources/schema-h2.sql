@@ -30,5 +30,7 @@ CREATE TABLE recipe_ingredient (
   ingredient_id INT NOT NULL,
   quantity      FLOAT,
   unit          VARCHAR(10),
-  PRIMARY KEY (recipe_id, ingredient_id)
+  PRIMARY KEY (recipe_id, ingredient_id),
+  CONSTRAINT "fkRecipeIngredientRecipe" FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fkRecipeIngredientIngredient" FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

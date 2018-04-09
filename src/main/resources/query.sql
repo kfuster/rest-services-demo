@@ -1,5 +1,6 @@
 // Example query for all ingredients in a recipe
 SELECT
+  recipe.name,
   ingredient.name,
   recipe_ingredient.quantity,
   recipe_ingredient.unit
