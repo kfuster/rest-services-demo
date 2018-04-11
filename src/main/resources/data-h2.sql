@@ -16,6 +16,6 @@ INSERT INTO recipe VALUES (NULL,
                            'Garnish with a lime wheel.'
 );
 
-INSERT INTO recipe_ingredient VALUES (1, 1, 2, 'oz');
-INSERT INTO recipe_ingredient VALUES (1, 2, 1, 'oz');
-INSERT INTO recipe_ingredient VALUES (1, 3, 1, 'oz');
+INSERT INTO recipe_ingredients VALUES (1, 1, 2, 'oz');
+INSERT INTO recipe_ingredients VALUES (1, 2, 1, 'oz');
+INSERT INTO recipe_ingredients VALUES (1, 3, 1, 'oz');

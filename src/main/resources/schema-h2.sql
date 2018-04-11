@@ -10,27 +10,27 @@ CREATE TABLE recipe (
 );
 
 CREATE TABLE recipe (
-  id           INT NOT NULL AUTO_INCREMENT,
+  recipe_id    INT NOT NULL AUTO_INCREMENT,
   name         VARCHAR(50),
   picture      VARCHAR(255),
   description  VARCHAR(255),
   instructions VARCHAR(255),
-  PRIMARY KEY (id)
+  PRIMARY KEY (recipe_id)
 );
 
 CREATE TABLE ingredient (
-id   INT NOT NULL AUTO_INCREMENT,
-name VARCHAR(50),
-PRIMARY KEY (id)
+  ingredient_id INT NOT NULL AUTO_INCREMENT,
+  name          VARCHAR(50),
+  PRIMARY KEY (ingredient_id)
 );
 
 
-CREATE TABLE recipe_ingredient (
+CREATE TABLE recipe_ingredients (
   recipe_id     INT NOT NULL,
   ingredient_id INT NOT NULL,
   quantity      FLOAT,
   unit          VARCHAR(10),
   PRIMARY KEY (recipe_id, ingredient_id),
-  CONSTRAINT "fkRecipeIngredientRecipe" FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT "fkRecipeIngredientIngredient" FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (recipe_id) REFERENCES recipe (recipe_id),
+  FOREIGN KEY (ingredient_id) REFERENCES ingredient (ingredient_id)
 );

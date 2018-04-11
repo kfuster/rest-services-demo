@@ -1,36 +1,23 @@
 package com.zakangroth.restservicesdemo.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipe")
 public class Recipe {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "picture")
     private String picture;
-
-    @Column(name = "description")
     private String description;
-
-    @OneToMany(fetch=FetchType.EAGER)
-    @JoinColumn(name = "recipe_id")
-    @MapsId("recipe_id")
-    private List<RecipeIngredient> ingredients;
-
-    @Column(name = "instructions")
+    private Set<RecipeIngredients> recipeIngredients = new HashSet<>();
     private String instructions;
 
-    public Recipe() {
-    }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_id")
     public Long getId() {
         return id;
     }
@@ -39,6 +26,7 @@ public class Recipe {
         this.id = id;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -47,6 +35,7 @@ public class Recipe {
         this.name = name;
     }
 
+    @Column(name = "picture")
     public String getPicture() {
         return picture;
     }
@@ -55,6 +44,7 @@ public class Recipe {
         this.picture = picture;
     }
 
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -63,14 +53,17 @@ public class Recipe {
         this.description = description;
     }
 
-    public List<RecipeIngredient> getIngredients() {
-        return ingredients;
+    @OneToMany(mappedBy = "recipeIngredientsId.recipe", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @Column(name = "recipe_id")
+    public Set<RecipeIngredients> getRecipeIngredients() {
+        return recipeIngredients;
     }
 
-    public void setIngredients(List<RecipeIngredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setRecipeIngredients(Set<RecipeIngredients> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
+    @Column(name = "instructions")
     public String getInstructions() {
         return instructions;
     }
@@ -86,7 +79,7 @@ public class Recipe {
                 ", name='" + name + '\'' +
                 ", picture='" + picture + '\'' +
                 ", description='" + description + '\'' +
-                ", ingredients=" + ingredients +
+                ", recipeIngredients=" + recipeIngredients +
                 ", instructions='" + instructions + '\'' +
                 '}';
     }
