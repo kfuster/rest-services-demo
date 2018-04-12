@@ -44,6 +44,11 @@ public class RecipeController {
         recipeRepository.create(recipe.toRecipe());
     }
 
+    @RequestMapping(value = "/ingredient", method = RequestMethod.POST)
+    public void addIngredient(Long recipeId, Long ingredientId, int quantity, String unit){
+        recipeRepository.addIngredient(recipeId, ingredientId, quantity, unit);
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public void update(RecipeDto recipe) {
         recipeRepository.update(recipe.toRecipe());

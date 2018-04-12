@@ -1,6 +1,10 @@
 package com.zakangroth.restservicesdemo.dto;
 
 import com.zakangroth.restservicesdemo.model.Recipe;
+import com.zakangroth.restservicesdemo.model.RecipeIngredients;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeDto {
 
@@ -8,6 +12,7 @@ public class RecipeDto {
     private String name;
     private String picture;
     private String description;
+    private List<RecipeIngredientsDto> ingredients = new ArrayList<>();
     private String instructions;
 
     public RecipeDto() {
@@ -19,11 +24,9 @@ public class RecipeDto {
         this.picture = recipe.getPicture();
         this.description = recipe.getDescription();
 
-        /*
         for (RecipeIngredients recipeIngredient : recipe.getRecipeIngredients()) {
-            this.ingredients.add(new IngredientDto(recipeIngredient.getIngredient()));
+            this.ingredients.add(new RecipeIngredientsDto(recipeIngredient));
         }
-        */
 
         this.instructions = recipe.getInstructions();
     }
@@ -35,7 +38,13 @@ public class RecipeDto {
         recipe.setPicture(this.picture);
         recipe.setDescription(this.description);
 
-        // TODO : Liste d'ingrédients
+        List<RecipeIngredients> recipeIngredients = new ArrayList<>();
+
+        for(RecipeIngredientsDto recipeIngredientsDto : ingredients){
+            recipeIngredients.add(recipeIngredientsDto.toRecipeIngredients());
+        }
+
+        recipe.getRecipeIngredients().addAll(recipeIngredients);
 
         recipe.setInstructions(this.instructions);
         return recipe;
@@ -73,15 +82,14 @@ public class RecipeDto {
         this.description = description;
     }
 
-    /*
-    public List<IngredientDto> getIngredients() {
+
+    public List<RecipeIngredientsDto> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<IngredientDto> ingredientDtos) {
+    public void setIngredients(List<RecipeIngredientsDto> ingredientDtos) {
         this.ingredients = ingredientDtos;
     }
-    */
 
     public String getInstructions() {
         return instructions;

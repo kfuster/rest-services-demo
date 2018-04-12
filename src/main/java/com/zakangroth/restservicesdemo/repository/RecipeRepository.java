@@ -1,6 +1,8 @@
 package com.zakangroth.restservicesdemo.repository;
 
+import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.model.Recipe;
+import com.zakangroth.restservicesdemo.model.RecipeIngredients;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +43,17 @@ public class RecipeRepository {
     public void create(Recipe recipe) {
         Session session = getEntityManager().unwrap(Session.class);
         session.save(recipe);
+    }
+
+    public void addIngredient(Long recipeId, Long ingredientId, int quantity, String unit) {
+        Session session = getEntityManager().unwrap(Session.class);
+        Recipe recipeInDB = session.load(Recipe.class, recipeId);
+        Ingredient ingredientInDB = session.load(Ingredient.class, ingredientId);
+        RecipeIngredients recipeIngredient = new RecipeIngredients(recipeInDB, ingredientInDB);
+        recipeIngredient.setQuantity(quantity);
+        recipeIngredient.setUnit(unit);
+        recipeInDB.getRecipeIngredients().add(recipeIngredient);
+        session.update(recipeInDB);
     }
 
     public void update(Recipe recipe) {

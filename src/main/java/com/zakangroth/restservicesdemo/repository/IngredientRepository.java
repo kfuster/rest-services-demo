@@ -57,7 +57,7 @@ public class IngredientRepository {
 
     public void deleteById(Long id) {
         Session session = getEntityManager().unwrap(Session.class);
-        Ingredient ingredientInDB = session.load(Ingredient.class, id);
+        Ingredient ingredientInDB = session.get(Ingredient.class, id);
         session.remove(ingredientInDB);
     }
 
