@@ -3,6 +3,7 @@ package com.zakangroth.restservicesdemo.repository;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.model.RecipeIngredients;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
@@ -27,17 +28,7 @@ public class RecipeRepository {
 
     public Recipe getById(Long id) {
         Session session = getEntityManager().unwrap(Session.class);
-        Query query = session.createQuery("from Recipe where id = :id");
-        query.setParameter("id", id);
-        Recipe recipe = new Recipe();
-
-        try {
-            recipe = (Recipe) query.getResultList().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            // Real catching to do to handle. Not found.
-        }
-
-        return recipe;
+        return session.get(Recipe.class, id);
     }
 
     public void create(Recipe recipe) {
@@ -47,8 +38,8 @@ public class RecipeRepository {
 
     public void addIngredient(Long recipeId, Long ingredientId, int quantity, String unit) {
         Session session = getEntityManager().unwrap(Session.class);
-        Recipe recipeInDB = session.load(Recipe.class, recipeId);
-        Ingredient ingredientInDB = session.load(Ingredient.class, ingredientId);
+        Recipe recipeInDB = session.get(Recipe.class, recipeId);
+        Ingredient ingredientInDB = session.get(Ingredient.class, ingredientId);
         RecipeIngredients recipeIngredient = new RecipeIngredients(recipeInDB, ingredientInDB);
         recipeIngredient.setQuantity(quantity);
         recipeIngredient.setUnit(unit);
@@ -58,20 +49,20 @@ public class RecipeRepository {
 
     public void update(Recipe recipe) {
         Session session = getEntityManager().unwrap(Session.class);
-        Recipe recipeInDB = session.load(Recipe.class, recipe.getId());
+        Recipe recipeInDB = session.get(Recipe.class, recipe.getId());
         recipeInDB = recipe;
         session.update(recipeInDB);
     }
 
     public void delete(Recipe recipe) {
         Session session = getEntityManager().unwrap(Session.class);
-        Recipe recipeInDB = session.load(Recipe.class, recipe.getId());
+        Recipe recipeInDB = session.get(Recipe.class, recipe.getId());
         session.remove(recipeInDB);
     }
 
     public void deleteById(Long id) {
         Session session = getEntityManager().unwrap(Session.class);
-        Recipe recipeInDB = session.load(Recipe.class, id);
+        Recipe recipeInDB = session.get(Recipe.class, id);
         session.remove(recipeInDB);
     }
 

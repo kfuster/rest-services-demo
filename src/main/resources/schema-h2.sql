@@ -20,7 +20,7 @@ CREATE TABLE recipe (
 
 CREATE TABLE ingredient (
   ingredient_id INT NOT NULL AUTO_INCREMENT,
-  name          VARCHAR(50),
+  name          VARCHAR(50) UNIQUE,
   PRIMARY KEY (ingredient_id)
 );
 
