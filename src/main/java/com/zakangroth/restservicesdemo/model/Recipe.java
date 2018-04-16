@@ -1,8 +1,8 @@
 package com.zakangroth.restservicesdemo.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "recipe")
@@ -12,7 +12,7 @@ public class Recipe {
     private String name;
     private String picture;
     private String description;
-    private Set<RecipeIngredients> recipeIngredients = new HashSet<>();
+    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
     private String instructions;
 
     @Id
@@ -55,11 +55,11 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipeIngredientsId.recipe", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @Column(name = "recipe_id")
-    public Set<RecipeIngredients> getRecipeIngredients() {
+    public List<RecipeIngredients> getRecipeIngredients() {
         return recipeIngredients;
     }
 
-    public void setRecipeIngredients(Set<RecipeIngredients> recipeIngredients) {
+    public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
     }
 

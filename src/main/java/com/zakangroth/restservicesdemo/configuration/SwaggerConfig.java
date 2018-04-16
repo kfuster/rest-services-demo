@@ -19,7 +19,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.zakangroth.restservicesdemo.controller"))
-                .paths(regex("/v1.*"))
+                .paths(regex("/api/v1.*"))
                 .build();
 
     }

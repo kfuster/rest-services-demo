@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/ingredients")
+@RequestMapping(value = "/api/v1/ingredients")
 public class IngredientController {
 
     @Autowired
@@ -37,22 +37,22 @@ public class IngredientController {
         return new IngredientDto(ingredientRepository.getById(id));
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public void create(@RequestBody String name) {
         ingredientRepository.create(name);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/", method = RequestMethod.PATCH)
     public void update(@RequestBody IngredientDto ingredientDto) {
         ingredientRepository.update(ingredientDto.toIngredient());
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
     public void delete(@RequestBody IngredientDto ingredientDto) {
         ingredientRepository.delete(ingredientDto.toIngredient());
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteById(@PathVariable("id") Long id) {
         ingredientRepository.deleteById(id);
     }
