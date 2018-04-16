@@ -40,7 +40,7 @@ public class RecipeDto {
 
         List<RecipeIngredients> recipeIngredients = new ArrayList<>();
 
-        for(RecipeIngredientsDto recipeIngredientsDto : ingredients){
+        for (RecipeIngredientsDto recipeIngredientsDto : ingredients) {
             recipeIngredients.add(recipeIngredientsDto.toRecipeIngredients());
         }
 

@@ -6,7 +6,6 @@ import com.zakangroth.restservicesdemo.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +13,12 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/ingredients")
 public class IngredientController {
 
-    @Autowired
     IngredientRepository ingredientRepository;
+
+    @Autowired
+    public IngredientController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<IngredientDto> getAll() {

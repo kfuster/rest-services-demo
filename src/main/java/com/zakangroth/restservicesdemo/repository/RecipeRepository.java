@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 @Repository
 @Transactional
@@ -42,7 +40,7 @@ public class RecipeRepository {
         session.save(recipe);
 
         List<RecipeIngredientsDto> ingredientsDtos = new ArrayList<>();
-        for (RecipeIngredients ingredient : ingredients){
+        for (RecipeIngredients ingredient : ingredients) {
             RecipeIngredientsDto recipeIngredientDto = new RecipeIngredientsDto(ingredient);
             recipeIngredientDto.setRecipeId(recipe.getId());
             ingredientsDtos.add(recipeIngredientDto);

@@ -16,8 +16,12 @@ import java.util.List;
 @Transactional
 public class RecipeController {
 
-    @Autowired
     RecipeRepository recipeRepository;
+
+    @Autowired
+    public RecipeController(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<RecipeDto> getAll() {
@@ -45,7 +49,7 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/ingredients", method = RequestMethod.PUT)
-    public void addIngredient(@RequestBody List<RecipeIngredientsDto> ingredients){
+    public void addIngredient(@RequestBody List<RecipeIngredientsDto> ingredients) {
         recipeRepository.addIngredients(ingredients);
     }
 
