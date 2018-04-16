@@ -36,6 +36,22 @@ public class RecipeIngredientsDto {
         return recipeIngredient;
     }
 
+    public Long getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public Long getIngredientId() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(Long ingredientId) {
+        this.ingredientId = ingredientId;
+    }
+
     public String getName() {
         return name;
     }

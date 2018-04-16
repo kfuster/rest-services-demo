@@ -49,9 +49,8 @@ public class RecipeRepository {
 
     public void update(Recipe recipe) {
         Session session = getEntityManager().unwrap(Session.class);
-        Recipe recipeInDB = session.get(Recipe.class, recipe.getId());
-        recipeInDB = recipe;
-        session.update(recipeInDB);
+        session.get(Recipe.class, recipe.getId());
+        session.save(recipe);
     }
 
     public void delete(Recipe recipe) {

@@ -4,10 +4,7 @@ import com.zakangroth.restservicesdemo.dto.RecipeDto;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -42,7 +39,7 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create(RecipeDto recipe) {
+    public void create(@RequestBody RecipeDto recipe) {
         recipeRepository.create(recipe.toRecipe());
     }
 
@@ -52,12 +49,12 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public void update(RecipeDto recipe) {
+    public void update(@RequestBody RecipeDto recipe) {
         recipeRepository.update(recipe.toRecipe());
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void delete(RecipeDto recipeDto) {
+    public void delete(@RequestBody RecipeDto recipeDto) {
         recipeRepository.delete(recipeDto.toRecipe());
     }
 
