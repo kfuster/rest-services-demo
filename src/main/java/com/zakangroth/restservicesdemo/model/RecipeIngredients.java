@@ -25,7 +25,7 @@ public class RecipeIngredients {
     }
 
     @EmbeddedId
-    public RecipeIngredientsId getRecipeIngredientsId() {
+    private RecipeIngredientsId getRecipeIngredientsId() {
         return recipeIngredientsId;
     }
 

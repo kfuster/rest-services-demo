@@ -3,59 +3,53 @@ package com.zakangroth.restservicesdemo.controller;
 import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/ingredients")
 public class IngredientController {
 
-    IngredientRepository ingredientRepository;
+    private final IngredientRepository ingredientRepository;
 
-    @Autowired
     public IngredientController(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @CrossOrigin
+    @GetMapping
     public List<IngredientDto> getAll() {
-
-        List<IngredientDto> ingredientDtos = new ArrayList<>();
-        List<Ingredient> ingredients;
-
-        ingredients = ingredientRepository.getAll();
-
-        for (Ingredient ingredient : ingredients) {
-            ingredientDtos.add(new IngredientDto(ingredient));
-        }
-
-        return ingredientDtos;
+        return ingredientRepository.getAll().stream().map(IngredientDto::new).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @CrossOrigin
+    @GetMapping(value = "/{id}")
     public IngredientDto getById(@PathVariable("id") Long id) {
         return new IngredientDto(ingredientRepository.getById(id));
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @CrossOrigin
+    @PostMapping(value = "/")
     public void create(@RequestBody String name) {
-        ingredientRepository.create(name);
+        ingredientRepository.create(new Ingredient(name));
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/", method = RequestMethod.PATCH)
     public void update(@RequestBody IngredientDto ingredientDto) {
         ingredientRepository.update(ingredientDto.toIngredient());
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.DELETE)
+    @CrossOrigin
+    @DeleteMapping(value = "/")
     public void delete(@RequestBody IngredientDto ingredientDto) {
         ingredientRepository.delete(ingredientDto.toIngredient());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @CrossOrigin
+    @DeleteMapping(value = "/{id}")
     public void deleteById(@PathVariable("id") Long id) {
         ingredientRepository.deleteById(id);
     }

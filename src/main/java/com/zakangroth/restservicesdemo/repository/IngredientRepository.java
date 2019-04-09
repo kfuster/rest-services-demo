@@ -1,5 +1,6 @@
 package com.zakangroth.restservicesdemo.repository;
 
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -15,57 +16,48 @@ import java.util.List;
 public class IngredientRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public List getAll() {
-        Session session = getEntityManager().unwrap(Session.class);
+    public IngredientRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public List<Ingredient> getAll() {
+        Session session = entityManager.unwrap(Session.class);
         Query query = session.createQuery("from Ingredient");
         return query.getResultList();
     }
 
     public Ingredient getById(Long id) {
-        Session session = getEntityManager().unwrap(Session.class);
-        Query query = session.createQuery("from Ingredient where id = :id");
-        query.setParameter("id", id);
-        Ingredient ingredient = new Ingredient();
+        Session session = entityManager.unwrap(Session.class);
+        Ingredient ingredient = session.get(Ingredient.class, id);
 
-        try {
-            ingredient = (Ingredient) query.getResultList().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            // Real catching to do to handle. Not found.
+        if (ingredient == null) {
+            throw new ElementNotFoundException();
         }
 
         return ingredient;
     }
 
-    public void create(String name) {
-        Session session = getEntityManager().unwrap(Session.class);
-        Ingredient ingredient = new Ingredient(name);
+    public void create(Ingredient ingredient) {
+        Session session = entityManager.unwrap(Session.class);
         session.persist(ingredient);
     }
 
     public void update(Ingredient ingredient) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         session.update(ingredient);
     }
 
     public void delete(Ingredient ingredient) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         Ingredient ingredientInDB = session.get(Ingredient.class, ingredient.getId());
         session.remove(ingredientInDB);
     }
 
     public void deleteById(Long id) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         Ingredient ingredientInDB = session.get(Ingredient.class, id);
         session.remove(ingredientInDB);
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

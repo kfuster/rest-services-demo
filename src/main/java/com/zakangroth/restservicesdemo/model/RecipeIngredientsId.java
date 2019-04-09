@@ -13,11 +13,11 @@ public class RecipeIngredientsId implements Serializable {
     private Ingredient ingredient;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    public Recipe getRecipe() {
+    Recipe getRecipe() {
         return recipe;
     }
 
-    public void setRecipe(Recipe recipe) {
+    void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
 

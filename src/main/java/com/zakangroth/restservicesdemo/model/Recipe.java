@@ -53,7 +53,7 @@ public class Recipe {
         this.description = description;
     }
 
-    @OneToMany(mappedBy = "recipeIngredientsId.recipe", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "recipeIngredientsId.recipe", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @Column(name = "recipe_id")
     public List<RecipeIngredients> getRecipeIngredients() {
         return recipeIngredients;

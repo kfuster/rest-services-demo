@@ -1,6 +1,7 @@
 package com.zakangroth.restservicesdemo.repository;
 
 import com.zakangroth.restservicesdemo.dto.RecipeIngredientsDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.model.RecipeIngredients;
@@ -19,21 +20,30 @@ import java.util.List;
 public class RecipeRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public List getAll() {
-        Session session = getEntityManager().unwrap(Session.class);
+    public RecipeRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public List<Recipe> getAll() {
+        Session session = entityManager.unwrap(Session.class);
         Query query = session.createQuery("from Recipe");
         return query.getResultList();
     }
 
     public Recipe getById(Long id) {
-        Session session = getEntityManager().unwrap(Session.class);
-        return session.get(Recipe.class, id);
+        Session session = entityManager.unwrap(Session.class);
+        Recipe recipe = session.get(Recipe.class, id);
+
+        if (recipe == null) {
+            throw new ElementNotFoundException();
+        }
+        return recipe;
     }
 
     public void create(Recipe recipe) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
 
         final ArrayList<RecipeIngredients> ingredients = new ArrayList<>(recipe.getRecipeIngredients());
         recipe.getRecipeIngredients().clear();
@@ -49,7 +59,7 @@ public class RecipeRepository {
     }
 
     public void addIngredients(List<RecipeIngredientsDto> ingredients) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         Recipe recipeInDB = new Recipe();
 
         for (RecipeIngredientsDto ingredient : ingredients) {
@@ -64,28 +74,20 @@ public class RecipeRepository {
     }
 
     public void update(Recipe recipe) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         session.get(Recipe.class, recipe.getId());
         session.save(recipe);
     }
 
     public void delete(Recipe recipe) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         Recipe recipeInDB = session.get(Recipe.class, recipe.getId());
         session.remove(recipeInDB);
     }
 
     public void deleteById(Long id) {
-        Session session = getEntityManager().unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
         Recipe recipeInDB = session.get(Recipe.class, id);
         session.remove(recipeInDB);
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

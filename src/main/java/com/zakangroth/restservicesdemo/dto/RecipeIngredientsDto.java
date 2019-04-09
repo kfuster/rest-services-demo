@@ -23,7 +23,7 @@ public class RecipeIngredientsDto {
         this.unit = recipeIngredient.getUnit();
     }
 
-    public RecipeIngredients toRecipeIngredients() {
+    RecipeIngredients toRecipeIngredients() {
         RecipeIngredients recipeIngredient = new RecipeIngredients();
         Recipe recipe = new Recipe();
         recipe.setId(this.recipeId);

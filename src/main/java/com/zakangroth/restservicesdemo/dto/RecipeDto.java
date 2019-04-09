@@ -2,6 +2,7 @@ package com.zakangroth.restservicesdemo.dto;
 
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.model.RecipeIngredients;
+import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
