@@ -1,6 +1,6 @@
 # Formation Spring Boot / Hibernate / services REST
 
-# Table des matères
+# Table des matières
  
  * [Spring Boot](#spring-boot)
  * [H2](#h2)
