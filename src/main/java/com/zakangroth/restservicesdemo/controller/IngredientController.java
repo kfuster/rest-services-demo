@@ -31,19 +31,19 @@ public class IngredientController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/")
+    @PostMapping
     public void create(@RequestBody String name) {
         ingredientRepository.create(new Ingredient(name));
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/", method = RequestMethod.PATCH)
+    @PatchMapping
     public void update(@RequestBody IngredientDto ingredientDto) {
         ingredientRepository.update(ingredientDto.toIngredient());
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/")
+    @DeleteMapping
     public void delete(@RequestBody IngredientDto ingredientDto) {
         ingredientRepository.delete(ingredientDto.toIngredient());
     }

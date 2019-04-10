@@ -31,7 +31,7 @@ public class RecipeController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/")
+    @PostMapping
     public void create(@RequestBody RecipeDto recipe) {
         recipeRepository.create(recipe.toRecipe());
     }
@@ -43,13 +43,13 @@ public class RecipeController {
     }
 
     @CrossOrigin
-    @PatchMapping(value = "/")
+    @PatchMapping
     public void update(@RequestBody RecipeDto recipe) {
         recipeRepository.update(recipe.toRecipe());
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/")
+    @DeleteMapping
     public void delete(@RequestBody RecipeDto recipeDto) {
         recipeRepository.delete(recipeDto.toRecipe());
     }
