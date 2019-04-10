@@ -13,7 +13,7 @@ public class Recipe {
     private String picture;
     private String description;
     private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
-    private String instructions;
+    private List<String> instructions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,12 +63,13 @@ public class Recipe {
         this.recipeIngredients = recipeIngredients;
     }
 
+    @ElementCollection
     @Column(name = "instructions")
-    public String getInstructions() {
+    public List<String> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<String> instructions) {
         this.instructions = instructions;
     }
 

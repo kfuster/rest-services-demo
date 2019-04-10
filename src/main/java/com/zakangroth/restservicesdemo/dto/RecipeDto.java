@@ -2,7 +2,6 @@ package com.zakangroth.restservicesdemo.dto;
 
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.model.RecipeIngredients;
-import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class RecipeDto {
     private String picture;
     private String description;
     private List<RecipeIngredientsDto> ingredients = new ArrayList<>();
-    private String instructions;
+    private List<String> instructions;
 
     public RecipeDto() {
     }
@@ -92,11 +91,11 @@ public class RecipeDto {
         this.ingredients = ingredientDtos;
     }
 
-    public String getInstructions() {
+    public List<String> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<String> instructions) {
         this.instructions = instructions;
     }
 }
