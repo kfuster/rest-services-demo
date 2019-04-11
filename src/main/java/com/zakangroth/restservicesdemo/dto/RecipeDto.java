@@ -12,7 +12,7 @@ public class RecipeDto {
     private String name;
     private String picture;
     private String description;
-    private Set<IngredientDto> ingredients = new HashSet<>();
+    private Set<RecipeIngredientDto> ingredients = new HashSet<>();
     private Set<String> instructions = new HashSet<>();
 
     public RecipeDto() {
@@ -23,7 +23,7 @@ public class RecipeDto {
         this.name = recipe.getName();
         this.picture = recipe.getPicture();
         this.description = recipe.getDescription();
-        this.ingredients = recipe.getIngredients().stream().map(IngredientDto::new).collect(Collectors.toSet());
+        this.ingredients = recipe.getIngredients().stream().map(RecipeIngredientDto::new).collect(Collectors.toSet());
         this.instructions = recipe.getInstructions();
     }
 
@@ -33,7 +33,7 @@ public class RecipeDto {
         recipe.setName(this.name);
         recipe.setPicture(this.picture);
         recipe.setDescription(this.description);
-        recipe.setIngredients(this.getIngredients().stream().map(IngredientDto::toIngredient).collect(Collectors.toSet()));
+        recipe.setIngredients(this.getIngredients().stream().map(RecipeIngredientDto::toRecipeIngredient).collect(Collectors.toSet()));
         recipe.setInstructions(this.instructions);
         return recipe;
     }
@@ -70,11 +70,11 @@ public class RecipeDto {
         this.description = description;
     }
 
-    public Set<IngredientDto> getIngredients() {
+    public Set<RecipeIngredientDto> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<IngredientDto> ingredientDtos) {
+    public void setIngredients(Set<RecipeIngredientDto> ingredientDtos) {
         this.ingredients = ingredientDtos;
     }
 
