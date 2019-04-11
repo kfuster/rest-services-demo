@@ -7,6 +7,13 @@ public class IngredientDto {
     private Long id;
     private String name;
 
+    /**
+     *  Mandatory for Spring
+     */
+    public IngredientDto() {
+
+    }
+
     public IngredientDto(Ingredient ingredient) {
         this.id = ingredient.getId();
         this.name = ingredient.getName();
