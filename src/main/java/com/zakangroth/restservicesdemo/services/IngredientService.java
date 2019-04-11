@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 @Service
 public class IngredientService {
 
-    Logger logger = LoggerFactory.getLogger(IngredientService.class);
-
     private final IngredientRepository ingredientRepository;
 
     public IngredientService(IngredientRepository ingredientRepository) {
@@ -36,7 +34,7 @@ public class IngredientService {
     @Transactional
     public Optional<Long> create(String name) {
         Ingredient ingredient = new Ingredient(name);
-        return Optional.of(ingredientRepository.create(ingredient));
+        return ingredientRepository.create(ingredient);
     }
 
     @Transactional
