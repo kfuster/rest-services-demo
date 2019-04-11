@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,12 +34,12 @@ public class RecipeService {
     }
 
     @Transactional
-    public void create(RecipeDto recipeDto) {
-        Recipe recipe = recipeDto.toRecipe();
+    public Optional<Long> create(RecipeDto recipeDto) {
 
+        Recipe recipe = recipeDto.toRecipe();
         recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
 
-        recipeRepository.create(recipe);
+        return recipeRepository.create(recipe);
     }
 
     @Transactional

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RecipeRepository {
@@ -36,11 +38,13 @@ public class RecipeRepository {
         return recipe;
     }
 
-    public void create(Recipe recipe) {
+    public Optional<Long> create(Recipe recipe) {
         if (recipe.getId() == null) {
             Session session = entityManager.unwrap(Session.class);
-            session.persist(recipe);
+            return Optional.of((long) session.save(recipe));
         }
+
+        return Optional.empty();
     }
 
     public void update(Recipe recipe) {

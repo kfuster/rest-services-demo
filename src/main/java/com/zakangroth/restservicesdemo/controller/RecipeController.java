@@ -1,11 +1,15 @@
 package com.zakangroth.restservicesdemo.controller;
 
+import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.dto.RecipeDto;
 import com.zakangroth.restservicesdemo.dto.RecipeIngredientDto;
 import com.zakangroth.restservicesdemo.services.RecipeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/recipes")
@@ -31,13 +35,19 @@ public class RecipeController {
 
     @CrossOrigin
     @PostMapping
-    public void create(@RequestBody RecipeDto recipe) {
-        recipeService.create(recipe);
+    public ResponseEntity create(@RequestBody RecipeDto recipe) {
+        Optional<Long> recipeId = recipeService.create(recipe);
+
+        if(recipeId.isPresent()) {
+            return  ResponseEntity.status(HttpStatus.CREATED).body(recipeId.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
     }
 
     @CrossOrigin
     @PutMapping(value = "/ingredients")
-    public void addIngredients(@RequestParam("id") final Long id, @RequestBody List<IngredientDto> ingredients) {
+    public void addIngredients(@RequestParam("id") final Long id, @RequestBody List<RecipeIngredientDto> ingredients) {
         recipeService.addIngredients(id, ingredients);
     }
 
