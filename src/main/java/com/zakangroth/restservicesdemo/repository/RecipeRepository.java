@@ -33,12 +33,7 @@ public class RecipeRepository {
 
     public Recipe getById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        Recipe recipe = session.get(Recipe.class, id);
-
-        if (recipe == null) {
-            throw new ElementNotFoundException();
-        }
-        return recipe;
+        return session.get(Recipe.class, id);
     }
 
     public Optional<Long> create(Recipe recipe) {

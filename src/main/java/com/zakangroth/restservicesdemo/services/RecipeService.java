@@ -2,6 +2,7 @@ package com.zakangroth.restservicesdemo.services;
 
 import com.zakangroth.restservicesdemo.dto.RecipeDto;
 import com.zakangroth.restservicesdemo.dto.RecipeIngredientDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
 import com.zakangroth.restservicesdemo.repository.RecipeRepository;
@@ -29,29 +30,35 @@ public class RecipeService {
     }
 
     @Transactional
-    public RecipeDto getById(Long id) {
-        return new RecipeDto(recipeRepository.getById(id));
+    public Optional<RecipeDto> getById(Long id) {
+
+        Recipe recipe = recipeRepository.getById(id);
+
+        if (recipe == null) {
+            throw new ElementNotFoundException();
+        }
+
+
+        return Optional.of(new RecipeDto(recipe));
     }
 
     @Transactional
     public Optional<Long> create(RecipeDto recipeDto) {
-
         Recipe recipe = recipeDto.toRecipe();
         recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
-
         return recipeRepository.create(recipe);
     }
 
     @Transactional
     public void addIngredients(Long id, List<RecipeIngredientDto> ingredients) {
-        RecipeDto recipeDto = getById(id);
-        recipeDto.getIngredients().addAll(ingredients);
+        Optional<RecipeDto> recipeDto = getById(id);
 
-        Recipe recipe = recipeDto.toRecipe();
-
-        recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
-
-        recipeRepository.update(recipe);
+        if (recipeDto.isPresent()) {
+            recipeDto.get().getIngredients().addAll(ingredients);
+            Recipe recipe = recipeDto.get().toRecipe();
+            recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
+            recipeRepository.update(recipe);
+        }
     }
 
     @Transactional
