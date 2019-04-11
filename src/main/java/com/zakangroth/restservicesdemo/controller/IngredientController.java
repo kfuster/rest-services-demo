@@ -24,13 +24,13 @@ public class IngredientController {
 
     @CrossOrigin
     @GetMapping(value = "/{id}")
-    public IngredientDto getById(@PathVariable("id") Long id) {
+    public IngredientDto getById(@PathVariable("id") final Long id) {
         return ingredientService.getById(id);
     }
 
     @CrossOrigin
     @PostMapping
-    public void create(@RequestBody String name) {
+    public void create(@RequestBody final String name) {
         ingredientService.create(name);
     }
 
@@ -48,7 +48,7 @@ public class IngredientController {
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}")
-    public void deleteById(@PathVariable("id") Long id) {
+    public void deleteById(@PathVariable("id") final Long id) {
         ingredientService.deleteById(id);
     }
 }

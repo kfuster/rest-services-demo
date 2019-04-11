@@ -26,7 +26,7 @@ public class RecipeController {
 
     @CrossOrigin
     @GetMapping(value = "/{id}")
-    public RecipeDto getById(@PathVariable("id") Long id) {
+    public RecipeDto getById(@PathVariable("id") final Long id) {
         return recipeService.getById(id);
     }
 
@@ -38,7 +38,7 @@ public class RecipeController {
 
     @CrossOrigin
     @PutMapping(value = "/ingredients")
-    public void addIngredients(@RequestParam("id") Long id, @RequestBody List<IngredientDto> ingredients) {
+    public void addIngredients(@RequestParam("id") final Long id, @RequestBody List<IngredientDto> ingredients) {
         recipeService.addIngredients(id, ingredients);
     }
 
@@ -56,7 +56,7 @@ public class RecipeController {
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}")
-    public void deleteById(@PathVariable("id") Long id) {
+    public void deleteById(@PathVariable("id") final Long id) {
         recipeService.deleteById(id);
     }
 }
