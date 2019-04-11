@@ -1,6 +1,7 @@
 package com.zakangroth.restservicesdemo.services;
 
 import com.zakangroth.restservicesdemo.dto.IngredientDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
 import org.slf4j.Logger;
@@ -27,8 +28,13 @@ public class IngredientService {
     }
 
     @Transactional
-    public IngredientDto getById(Long id) {
-        return new IngredientDto(ingredientRepository.getById(id));
+    public Optional<IngredientDto> getById(Long id) {
+        Ingredient ingredient = ingredientRepository.getById(id);
+        if(ingredient == null) {
+            throw new ElementNotFoundException();
+        }
+
+        return Optional.of(new IngredientDto(ingredient));
     }
 
     @Transactional

@@ -31,13 +31,7 @@ public class IngredientRepository {
 
     public Ingredient getById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        Ingredient ingredient = session.get(Ingredient.class, id);
-
-        if (ingredient == null) {
-            throw new ElementNotFoundException();
-        }
-
-        return ingredient;
+        return session.get(Ingredient.class, id);
     }
 
     public Optional<Long> create(Ingredient ingredient) {
