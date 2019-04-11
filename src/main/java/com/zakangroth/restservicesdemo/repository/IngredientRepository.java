@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class IngredientRepository {
@@ -37,9 +38,14 @@ public class IngredientRepository {
         return ingredient;
     }
 
-    public long create(Ingredient ingredient) {
-        Session session = entityManager.unwrap(Session.class);
-        return (long) session.save(ingredient);
+    public Optional<Long> create(Ingredient ingredient) {
+
+        if(ingredient.getId() == null) {
+            Session session = entityManager.unwrap(Session.class);
+            return Optional.of((long) session.save(ingredient));
+        }
+
+        return Optional.empty();
     }
 
     public void update(Ingredient ingredient) {
