@@ -1,22 +1,16 @@
 package com.zakangroth.restservicesdemo.repository;
 
-import com.zakangroth.restservicesdemo.dto.RecipeIngredientsDto;
 import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
-import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.model.Recipe;
-import com.zakangroth.restservicesdemo.model.RecipeIngredients;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Transactional
 public class RecipeRepository {
 
     @PersistenceContext
@@ -43,40 +37,16 @@ public class RecipeRepository {
     }
 
     public void create(Recipe recipe) {
-        Session session = entityManager.unwrap(Session.class);
-
-        final ArrayList<RecipeIngredients> ingredients = new ArrayList<>(recipe.getRecipeIngredients());
-        recipe.getRecipeIngredients().clear();
-        session.save(recipe);
-
-        List<RecipeIngredientsDto> ingredientsDtos = new ArrayList<>();
-        for (RecipeIngredients ingredient : ingredients) {
-            RecipeIngredientsDto recipeIngredientDto = new RecipeIngredientsDto(ingredient);
-            recipeIngredientDto.setRecipeId(recipe.getId());
-            ingredientsDtos.add(recipeIngredientDto);
+        if (recipe.getId() == null) {
+            Session session = entityManager.unwrap(Session.class);
+            session.persist(recipe);
         }
-        addIngredients(ingredientsDtos);
-    }
-
-    public void addIngredients(List<RecipeIngredientsDto> ingredients) {
-        Session session = entityManager.unwrap(Session.class);
-        Recipe recipeInDB = new Recipe();
-
-        for (RecipeIngredientsDto ingredient : ingredients) {
-            recipeInDB = session.get(Recipe.class, ingredient.getRecipeId());
-            Ingredient ingredientInDB = session.get(Ingredient.class, ingredient.getIngredientId());
-            RecipeIngredients recipeIngredient = new RecipeIngredients(recipeInDB, ingredientInDB);
-            recipeIngredient.setQuantity(ingredient.getQuantity());
-            recipeIngredient.setUnit(ingredient.getUnit());
-            recipeInDB.getRecipeIngredients().add(recipeIngredient);
-        }
-        session.update(recipeInDB);
     }
 
     public void update(Recipe recipe) {
         Session session = entityManager.unwrap(Session.class);
         session.get(Recipe.class, recipe.getId());
-        session.save(recipe);
+        session.merge(recipe);
     }
 
     public void delete(Recipe recipe) {

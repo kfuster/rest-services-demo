@@ -1,8 +1,8 @@
 package com.zakangroth.restservicesdemo.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipe")
@@ -12,8 +12,8 @@ public class Recipe {
     private String name;
     private String picture;
     private String description;
-    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
-    private List<String> instructions;
+    private Set<Ingredient> ingredients = new HashSet<>();
+    private Set<String> instructions = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,23 +53,22 @@ public class Recipe {
         this.description = description;
     }
 
-    @OneToMany(mappedBy = "recipeIngredientsId.recipe", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @Column(name = "recipe_id")
-    public List<RecipeIngredients> getRecipeIngredients() {
-        return recipeIngredients;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
-        this.recipeIngredients = recipeIngredients;
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "instructions")
-    public List<String> getInstructions() {
+    public Set<String> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(List<String> instructions) {
+    public void setInstructions(Set<String> instructions) {
         this.instructions = instructions;
     }
 
@@ -80,7 +79,7 @@ public class Recipe {
                 ", name='" + name + '\'' +
                 ", picture='" + picture + '\'' +
                 ", description='" + description + '\'' +
-                ", recipeIngredients=" + recipeIngredients +
+                ", ingredients=" + ingredients +
                 ", instructions='" + instructions + '\'' +
                 '}';
     }
