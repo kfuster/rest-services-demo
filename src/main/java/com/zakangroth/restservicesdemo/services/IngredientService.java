@@ -3,14 +3,19 @@ package com.zakangroth.restservicesdemo.services;
 import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class IngredientService {
+
+    Logger logger = LoggerFactory.getLogger(IngredientService.class);
 
     private final IngredientRepository ingredientRepository;
 
@@ -29,8 +34,9 @@ public class IngredientService {
     }
 
     @Transactional
-    public void create(String name) {
-        ingredientRepository.create(new Ingredient(name));
+    public Optional<Long> create(String name) {
+        Ingredient ingredient = new Ingredient(name);
+        return Optional.of(ingredientRepository.create(ingredient));
     }
 
     @Transactional

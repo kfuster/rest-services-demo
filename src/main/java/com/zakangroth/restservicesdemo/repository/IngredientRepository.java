@@ -37,11 +37,9 @@ public class IngredientRepository {
         return ingredient;
     }
 
-    public void create(Ingredient ingredient) {
-        if (ingredient.getId() == null) {
-            Session session = entityManager.unwrap(Session.class);
-            session.persist(ingredient);
-        }
+    public long create(Ingredient ingredient) {
+        Session session = entityManager.unwrap(Session.class);
+        return (long) session.save(ingredient);
     }
 
     public void update(Ingredient ingredient) {
