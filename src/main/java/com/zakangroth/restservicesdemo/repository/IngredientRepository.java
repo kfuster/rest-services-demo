@@ -44,9 +44,9 @@ public class IngredientRepository {
         return Optional.empty();
     }
 
-    public void update(Ingredient ingredient) {
+    public Ingredient update(Ingredient ingredient) {
         Session session = entityManager.unwrap(Session.class);
-        session.merge(ingredient);
+        return (Ingredient) session.merge(ingredient);
     }
 
     public void delete(Ingredient ingredient) {

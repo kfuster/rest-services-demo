@@ -3,6 +3,8 @@ package com.zakangroth.restservicesdemo.controller;
 import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.dto.RecipeDto;
 import com.zakangroth.restservicesdemo.dto.RecipeIngredientDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
+import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.services.RecipeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +31,14 @@ public class RecipeController {
 
     @CrossOrigin
     @GetMapping(value = "/{id}")
-    public RecipeDto getById(@PathVariable("id") final Long id) {
-        return recipeService.getById(id);
+    public ResponseEntity<RecipeDto> getById(@PathVariable("id") final Long id) {
+        Optional<RecipeDto> recipeDto = recipeService.getById(id);
+
+        if (recipeDto.isPresent()) {
+            return ResponseEntity.ok(recipeDto.get());
+        }
+
+        throw new ElementNotFoundException();
     }
 
     @CrossOrigin
@@ -38,8 +46,8 @@ public class RecipeController {
     public ResponseEntity create(@RequestBody RecipeDto recipe) {
         Optional<Long> recipeId = recipeService.create(recipe);
 
-        if(recipeId.isPresent()) {
-            return  ResponseEntity.status(HttpStatus.CREATED).body(recipeId.get());
+        if (recipeId.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(recipeId.get());
         }
 
         return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();

@@ -30,7 +30,7 @@ public class IngredientService {
     @Transactional
     public Optional<IngredientDto> getById(Long id) {
         Ingredient ingredient = ingredientRepository.getById(id);
-        if(ingredient == null) {
+        if (ingredient == null) {
             throw new ElementNotFoundException();
         }
 
@@ -44,8 +44,14 @@ public class IngredientService {
     }
 
     @Transactional
-    public void update(IngredientDto ingredientDto) {
-        ingredientRepository.update(ingredientDto.toIngredient());
+    public Optional<Ingredient> update(IngredientDto ingredientDto) {
+
+        Ingredient ingredient = ingredientRepository.update(ingredientDto.toIngredient());
+        if (ingredient != null) {
+            return Optional.of(ingredient);
+        }
+
+        return Optional.empty();
     }
 
     @Transactional

@@ -1,6 +1,8 @@
 package com.zakangroth.restservicesdemo.controller;
 
 import com.zakangroth.restservicesdemo.dto.IngredientDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
+import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.services.IngredientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +29,14 @@ public class IngredientController {
 
     @CrossOrigin
     @GetMapping(value = "/{id}")
-    public IngredientDto getById(@PathVariable("id") final Long id) {
-        return ingredientService.getById(id);
+    public ResponseEntity<IngredientDto> getById(@PathVariable("id") final Long id) {
+        Optional<IngredientDto> ingredientDto = ingredientService.getById(id);
+
+        if(ingredientDto.isPresent()) {
+            return ResponseEntity.ok(ingredientDto.get());
+        }
+
+        throw new ElementNotFoundException();
     }
 
     /**
@@ -51,8 +59,15 @@ public class IngredientController {
 
     @CrossOrigin
     @PatchMapping
-    public void update(@RequestBody IngredientDto ingredientDto) {
-        ingredientService.update(ingredientDto);
+    public ResponseEntity<Ingredient> update(@RequestBody IngredientDto ingredientDto) {
+
+        Optional<Ingredient> ingredient = ingredientService.update(ingredientDto);
+        if(ingredient.isPresent()) {
+            return ResponseEntity.ok(ingredient.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+
     }
 
     @CrossOrigin
