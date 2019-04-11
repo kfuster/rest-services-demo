@@ -14,6 +14,8 @@ import java.util.Optional;
 @Repository
 public class IngredientRepository {
 
+    private static final String QUERY_FIND_ALL = "from Ingredient";
+
     @PersistenceContext
     private final EntityManager entityManager;
 
@@ -23,7 +25,7 @@ public class IngredientRepository {
 
     public List<Ingredient> getAll() {
         Session session = entityManager.unwrap(Session.class);
-        Query query = session.createQuery("from Ingredient");
+        Query<Ingredient> query = session.createQuery(QUERY_FIND_ALL, Ingredient.class);
         return query.getResultList();
     }
 
