@@ -7,9 +7,6 @@ public class IngredientDto {
     private Long id;
     private String name;
 
-    public IngredientDto() {
-    }
-
     public IngredientDto(Ingredient ingredient) {
         this.id = ingredient.getId();
         this.name = ingredient.getName();

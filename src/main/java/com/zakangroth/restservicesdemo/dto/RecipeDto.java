@@ -15,9 +15,6 @@ public class RecipeDto {
     private Set<IngredientDto> ingredients = new HashSet<>();
     private Set<String> instructions = new HashSet<>();
 
-    public RecipeDto() {
-    }
-
     public RecipeDto(Recipe recipe) {
         this.id = recipe.getId();
         this.name = recipe.getName();
