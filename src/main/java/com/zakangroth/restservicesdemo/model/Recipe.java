@@ -12,7 +12,7 @@ public class Recipe {
     private String name;
     private String picture;
     private String description;
-    private Set<Ingredient> ingredients = new HashSet<>();
+    private Set<RecipeIngredient> ingredients = new HashSet<>();
     private Set<String> instructions = new HashSet<>();
 
     @Id
@@ -54,11 +54,11 @@ public class Recipe {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    public Set<Ingredient> getIngredients() {
+    public Set<RecipeIngredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
+    public void setIngredients(Set<RecipeIngredient> ingredients) {
         this.ingredients = ingredients;
     }
 

@@ -1,7 +1,7 @@
 package com.zakangroth.restservicesdemo.services;
 
-import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.dto.RecipeDto;
+import com.zakangroth.restservicesdemo.dto.RecipeIngredientDto;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
 import com.zakangroth.restservicesdemo.repository.RecipeRepository;
@@ -36,19 +36,19 @@ public class RecipeService {
     public void create(RecipeDto recipeDto) {
         Recipe recipe = recipeDto.toRecipe();
 
-        recipe.getIngredients().forEach(ingredientRepository::create);
+        recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
 
         recipeRepository.create(recipe);
     }
 
     @Transactional
-    public void addIngredients(Long id, List<IngredientDto> ingredients) {
+    public void addIngredients(Long id, List<RecipeIngredientDto> ingredients) {
         RecipeDto recipeDto = getById(id);
         recipeDto.getIngredients().addAll(ingredients);
 
         Recipe recipe = recipeDto.toRecipe();
 
-        recipe.getIngredients().forEach(ingredientRepository::create);
+        recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
 
         recipeRepository.update(recipe);
     }
