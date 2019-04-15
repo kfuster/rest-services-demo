@@ -36,10 +36,11 @@ public class RecipeService {
     public void create(RecipeDto recipeDto) {
         Recipe recipe = recipeDto.toRecipe();
 
-        recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
+        setupIngredients(recipe);
 
         recipeRepository.create(recipe);
     }
+
 
     @Transactional
     public void addIngredients(Long id, List<RecipeIngredientDto> ingredients) {
@@ -48,14 +49,28 @@ public class RecipeService {
 
         Recipe recipe = recipeDto.toRecipe();
 
-        recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
+        setupIngredients(recipe);
 
         recipeRepository.update(recipe);
     }
 
     @Transactional
-    public void update(RecipeDto recipe) {
-        recipeRepository.update(recipe.toRecipe());
+    public void update(RecipeDto recipedto) {
+        RecipeDto recipeDto = getById(recipedto.getId());
+        recipeDto.setIngredients(recipedto.getIngredients());
+
+        Recipe recipe = recipeDto.toRecipe();
+
+        setupIngredients(recipe);
+
+        recipeRepository.update(recipe);
+    }
+
+    private void setupIngredients(Recipe recipe) {
+        recipe.getIngredients().forEach(recipeIngredient -> {
+            ingredientRepository.create(recipeIngredient.getIngredient());
+            recipeIngredient.setIngredient(ingredientRepository.getById(recipeIngredient.getIngredient().getId()));
+        });
     }
 
     @Transactional
