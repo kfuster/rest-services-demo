@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ElementNotFoundException extends RuntimeException {
 
     public ElementNotFoundException() {
-        super("Element non trouvé");
+        super("Élément non trouvé");
     }
 }

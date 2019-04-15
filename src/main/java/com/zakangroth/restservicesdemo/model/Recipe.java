@@ -1,7 +1,19 @@
 package com.zakangroth.restservicesdemo.model;
 
-import javax.persistence.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -73,14 +85,25 @@ public class Recipe {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(id, recipe.id) &&
+                Objects.equals(name, recipe.name) &&
+                Objects.equals(picture, recipe.picture) &&
+                Objects.equals(description, recipe.description) &&
+                Objects.equals(ingredients, recipe.ingredients) &&
+                Objects.equals(instructions, recipe.instructions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, picture, description, ingredients, instructions);
+    }
+
+    @Override
     public String toString() {
-        return "Recipe{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", picture='" + picture + '\'' +
-                ", description='" + description + '\'' +
-                ", ingredients=" + ingredients +
-                ", instructions='" + instructions + '\'' +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 }

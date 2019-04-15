@@ -1,6 +1,7 @@
 package com.zakangroth.restservicesdemo.dto;
 
 import com.zakangroth.restservicesdemo.model.RecipeIngredient;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class RecipeIngredientDto {
         this.unit = recipeIngredient.getUnit();
     }
 
-    public RecipeIngredient toRecipeIngredient() {
+    RecipeIngredient toRecipeIngredient() {
         RecipeIngredient recipeIngredient = new RecipeIngredient();
         recipeIngredient.setId(this.id);
         recipeIngredient.setIngredient(this.ingredient.toIngredient());
@@ -80,11 +81,6 @@ public class RecipeIngredientDto {
 
     @Override
     public String toString() {
-        return "RecipeIngredientDto{" +
-                "id=" + id +
-                ", ingredient=" + ingredient +
-                ", quantity=" + quantity +
-                ", unit='" + unit + '\'' +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 }

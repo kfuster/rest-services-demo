@@ -33,6 +33,7 @@ public class RecipeRepository {
         if (recipe == null) {
             throw new ElementNotFoundException();
         }
+
         return recipe;
     }
 

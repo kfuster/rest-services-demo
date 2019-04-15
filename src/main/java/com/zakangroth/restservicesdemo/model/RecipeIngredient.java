@@ -1,6 +1,17 @@
 package com.zakangroth.restservicesdemo.model;
 
-import javax.persistence.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "recipe_ingredient")
@@ -50,5 +61,27 @@ public class RecipeIngredient {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeIngredient that = (RecipeIngredient) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(ingredient, that.ingredient) &&
+                Objects.equals(quantity, that.quantity) &&
+                Objects.equals(unit, that.unit);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ingredient, quantity, unit);
+    }
+
+    @Override
+    public String
+    toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
