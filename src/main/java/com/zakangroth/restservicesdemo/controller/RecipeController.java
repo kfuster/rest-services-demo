@@ -46,13 +46,13 @@ public class RecipeController {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/ingredients")
+    @PatchMapping(value = "/ingredients")
     public void addIngredients(@RequestParam("id") Long id, @RequestBody List<RecipeIngredientDto> ingredients) {
         recipeService.addIngredients(id, ingredients);
     }
 
     @CrossOrigin
-    @PatchMapping
+    @PutMapping
     public void update(@RequestBody RecipeDto recipe) {
         recipeService.update(recipe);
     }
