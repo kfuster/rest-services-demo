@@ -58,21 +58,23 @@ public class RecipeService {
         if (recipeDto.isPresent()) {
             recipeDto.get().getIngredients().addAll(ingredients);
             Recipe recipe = recipeDto.get().toRecipe();
-            recipe.getIngredients().forEach(recipeIngredient -> ingredientRepository.create(recipeIngredient.getIngredient()));
+            setupIngredients(recipe);
             recipeRepository.update(recipe);
         }
     }
 
     @Transactional
-    public void update(RecipeDto recipedto) {
-        RecipeDto recipeDto = getById(recipedto.getId());
-        recipeDto.setIngredients(recipedto.getIngredients());
+    public void update(RecipeDto recipeDto) {
+        Optional<RecipeDto> recipeDtoOpt = getById(recipeDto.getId());
 
-        Recipe recipe = recipeDto.toRecipe();
+        if (recipeDtoOpt.isPresent()) {
+            recipeDtoOpt.get().setIngredients(recipeDto.getIngredients());
+            Recipe recipe = recipeDtoOpt.get().toRecipe();
 
-        setupIngredients(recipe);
+            setupIngredients(recipe);
 
-        recipeRepository.update(recipe);
+            recipeRepository.update(recipe);
+        }
     }
 
     private void setupIngredients(Recipe recipe) {

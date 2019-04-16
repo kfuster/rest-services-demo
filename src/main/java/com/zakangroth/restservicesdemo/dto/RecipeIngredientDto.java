@@ -13,7 +13,7 @@ public class RecipeIngredientDto {
     private String unit;
 
     /**
-     *  Mandatory for Spring
+     * Mandatory for Spring
      */
     public RecipeIngredientDto() {
 

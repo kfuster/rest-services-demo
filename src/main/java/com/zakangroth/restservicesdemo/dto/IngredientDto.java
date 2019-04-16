@@ -11,7 +11,7 @@ public class IngredientDto {
     private String name;
 
     /**
-     *  Mandatory for Spring
+     * Mandatory for Spring
      */
     public IngredientDto() {
 

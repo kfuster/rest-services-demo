@@ -1,6 +1,5 @@
 package com.zakangroth.restservicesdemo.repository;
 
-import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -36,7 +35,7 @@ public class IngredientRepository {
 
     public Optional<Long> create(Ingredient ingredient) {
 
-        if(ingredient.getId() == null) {
+        if (ingredient.getId() == null) {
             Session session = entityManager.unwrap(Session.class);
             return Optional.of((long) session.save(ingredient));
         }

@@ -18,7 +18,7 @@ public class RecipeDto {
     private Set<String> instructions = new HashSet<>();
 
     /**
-     *  Mandatory for Spring
+     * Mandatory for Spring
      */
     public RecipeDto() {
 

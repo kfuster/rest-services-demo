@@ -4,8 +4,6 @@ import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

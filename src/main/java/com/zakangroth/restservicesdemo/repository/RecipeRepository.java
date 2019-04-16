@@ -1,15 +1,12 @@
 package com.zakangroth.restservicesdemo.repository;
 
-import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +24,7 @@ public class RecipeRepository {
 
     public List<Recipe> getAll() {
         Session session = entityManager.unwrap(Session.class);
-        Query<Recipe> query = session.createQuery(QUERY_FIND_ALL,Recipe.class);
+        Query<Recipe> query = session.createQuery(QUERY_FIND_ALL, Recipe.class);
         return query.getResultList();
     }
 
