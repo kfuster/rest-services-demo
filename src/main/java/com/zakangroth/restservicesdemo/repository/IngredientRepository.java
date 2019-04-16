@@ -9,9 +9,12 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class IngredientRepository {
+
+    private static final String QUERY_FIND_ALL = "from Ingredient";
 
     @PersistenceContext
     private final EntityManager entityManager;
@@ -22,31 +25,28 @@ public class IngredientRepository {
 
     public List<Ingredient> getAll() {
         Session session = entityManager.unwrap(Session.class);
-        Query query = session.createQuery("from Ingredient");
+        Query<Ingredient> query = session.createQuery(QUERY_FIND_ALL, Ingredient.class);
         return query.getResultList();
     }
 
     public Ingredient getById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        Ingredient ingredient = session.get(Ingredient.class, id);
-
-        if (ingredient == null) {
-            throw new ElementNotFoundException();
-        }
-
-        return ingredient;
+        return session.get(Ingredient.class, id);
     }
 
-    public void create(Ingredient ingredient) {
-        if (ingredient.getId() == null) {
+    public Optional<Long> create(Ingredient ingredient) {
+
+        if(ingredient.getId() == null) {
             Session session = entityManager.unwrap(Session.class);
-            session.persist(ingredient);
+            return Optional.of((long) session.save(ingredient));
         }
+
+        return Optional.empty();
     }
 
-    public void update(Ingredient ingredient) {
+    public Ingredient update(Ingredient ingredient) {
         Session session = entityManager.unwrap(Session.class);
-        session.merge(ingredient);
+        return (Ingredient) session.merge(ingredient);
     }
 
     public void delete(Ingredient ingredient) {

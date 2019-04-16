@@ -15,7 +15,11 @@ public class RecipeDto {
     private Set<RecipeIngredientDto> ingredients = new HashSet<>();
     private Set<String> instructions = new HashSet<>();
 
+    /**
+     *  Mandatory for Spring
+     */
     public RecipeDto() {
+
     }
 
     public RecipeDto(Recipe recipe) {
