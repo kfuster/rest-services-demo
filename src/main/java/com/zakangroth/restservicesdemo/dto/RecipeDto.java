@@ -1,8 +1,10 @@
 package com.zakangroth.restservicesdemo.dto;
 
 import com.zakangroth.restservicesdemo.model.Recipe;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -88,5 +90,28 @@ public class RecipeDto {
 
     public void setInstructions(Set<String> instructions) {
         this.instructions = instructions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeDto recipeDto = (RecipeDto) o;
+        return Objects.equals(id, recipeDto.id) &&
+                Objects.equals(name, recipeDto.name) &&
+                Objects.equals(picture, recipeDto.picture) &&
+                Objects.equals(description, recipeDto.description) &&
+                Objects.equals(ingredients, recipeDto.ingredients) &&
+                Objects.equals(instructions, recipeDto.instructions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, picture, description, ingredients, instructions);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

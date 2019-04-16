@@ -1,6 +1,9 @@
 package com.zakangroth.restservicesdemo.dto;
 
 import com.zakangroth.restservicesdemo.model.Ingredient;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.Objects;
 
 public class IngredientDto {
 
@@ -40,5 +43,24 @@ public class IngredientDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IngredientDto that = (IngredientDto) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
