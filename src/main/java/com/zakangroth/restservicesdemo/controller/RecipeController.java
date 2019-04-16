@@ -1,8 +1,14 @@
 package com.zakangroth.restservicesdemo.controller;
 
+import com.zakangroth.restservicesdemo.dto.IngredientDto;
 import com.zakangroth.restservicesdemo.dto.RecipeDto;
 import com.zakangroth.restservicesdemo.dto.RecipeIngredientDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
+import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.services.RecipeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/recipes")
@@ -35,19 +42,31 @@ public class RecipeController {
 
     @CrossOrigin
     @GetMapping(value = "/{id}")
-    public RecipeDto getById(@PathVariable("id") Long id) {
-        return recipeService.getById(id);
+    public ResponseEntity<RecipeDto> getById(@PathVariable("id") final Long id) {
+        Optional<RecipeDto> recipeDto = recipeService.getById(id);
+
+        if (recipeDto.isPresent()) {
+            return ResponseEntity.ok(recipeDto.get());
+        }
+
+        throw new ElementNotFoundException();
     }
 
     @CrossOrigin
     @PostMapping
-    public void create(@RequestBody RecipeDto recipe) {
-        recipeService.create(recipe);
+    public ResponseEntity create(@RequestBody RecipeDto recipe) {
+        Optional<Long> recipeId = recipeService.create(recipe);
+
+        if (recipeId.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(recipeId.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
     }
 
     @CrossOrigin
     @PatchMapping(value = "/ingredients")
-    public void addIngredients(@RequestParam("id") Long id, @RequestBody List<RecipeIngredientDto> ingredients) {
+    public void addIngredients(@RequestParam("id") final Long id, @RequestBody List<RecipeIngredientDto> ingredients) {
         recipeService.addIngredients(id, ingredients);
     }
 
@@ -65,7 +84,7 @@ public class RecipeController {
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}")
-    public void deleteById(@PathVariable("id") Long id) {
+    public void deleteById(@PathVariable("id") final Long id) {
         recipeService.deleteById(id);
     }
 }

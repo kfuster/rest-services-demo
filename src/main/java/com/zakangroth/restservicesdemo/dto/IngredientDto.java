@@ -10,7 +10,11 @@ public class IngredientDto {
     private Long id;
     private String name;
 
+    /**
+     *  Mandatory for Spring
+     */
     public IngredientDto() {
+
     }
 
     public IngredientDto(Ingredient ingredient) {

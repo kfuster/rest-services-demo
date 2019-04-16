@@ -1,12 +1,16 @@
 package com.zakangroth.restservicesdemo.services;
 
 import com.zakangroth.restservicesdemo.dto.IngredientDto;
+import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,18 +28,30 @@ public class IngredientService {
     }
 
     @Transactional
-    public IngredientDto getById(Long id) {
-        return new IngredientDto(ingredientRepository.getById(id));
+    public Optional<IngredientDto> getById(Long id) {
+        Ingredient ingredient = ingredientRepository.getById(id);
+        if (ingredient == null) {
+            throw new ElementNotFoundException();
+        }
+
+        return Optional.of(new IngredientDto(ingredient));
     }
 
     @Transactional
-    public void create(String name) {
-        ingredientRepository.create(new Ingredient(name));
+    public Optional<Long> create(String name) {
+        Ingredient ingredient = new Ingredient(name);
+        return ingredientRepository.create(ingredient);
     }
 
     @Transactional
-    public void update(IngredientDto ingredientDto) {
-        ingredientRepository.update(ingredientDto.toIngredient());
+    public Optional<Ingredient> update(IngredientDto ingredientDto) {
+
+        Ingredient ingredient = ingredientRepository.update(ingredientDto.toIngredient());
+        if (ingredient != null) {
+            return Optional.of(ingredient);
+        }
+
+        return Optional.empty();
     }
 
     @Transactional

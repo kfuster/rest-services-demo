@@ -1,4 +1,4 @@
-# Formation Spring Boot / Hibernate / services REST
+# Formation Spring Boot / Hibernate / services REST v1
 
 # Table des matières
  

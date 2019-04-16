@@ -12,7 +12,11 @@ public class RecipeIngredientDto {
     private Long quantity;
     private String unit;
 
+    /**
+     *  Mandatory for Spring
+     */
     public RecipeIngredientDto() {
+
     }
 
     RecipeIngredientDto(RecipeIngredient recipeIngredient) {

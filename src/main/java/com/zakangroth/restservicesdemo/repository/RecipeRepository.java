@@ -3,15 +3,20 @@ package com.zakangroth.restservicesdemo.repository;
 import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RecipeRepository {
+
+    private static final String QUERY_FIND_ALL = "from Recipe";
 
     @PersistenceContext
     private final EntityManager entityManager;
@@ -22,26 +27,22 @@ public class RecipeRepository {
 
     public List<Recipe> getAll() {
         Session session = entityManager.unwrap(Session.class);
-        Query query = session.createQuery("from Recipe");
+        Query<Recipe> query = session.createQuery(QUERY_FIND_ALL,Recipe.class);
         return query.getResultList();
     }
 
     public Recipe getById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        Recipe recipe = session.get(Recipe.class, id);
-
-        if (recipe == null) {
-            throw new ElementNotFoundException();
-        }
-
-        return recipe;
+        return session.get(Recipe.class, id);
     }
 
-    public void create(Recipe recipe) {
+    public Optional<Long> create(Recipe recipe) {
         if (recipe.getId() == null) {
             Session session = entityManager.unwrap(Session.class);
-            session.persist(recipe);
+            return Optional.of((long) session.save(recipe));
         }
+
+        return Optional.empty();
     }
 
     public void update(Recipe recipe) {
