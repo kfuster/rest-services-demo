@@ -80,7 +80,7 @@ Spring permet d'écrire simplement du code à l'aide d'annotations. L'annotation
 | `@PostMapping` |Pour configurer le mappage URI dans les méthodes de gestionnaire de contrôleur. Cette annotation est utilisée pour les opérations POST (Modification d’une ressource)
 | `@DeleteMapping` |Pour configurer le mappage URI dans les méthodes de gestionnaire de contrôleur. Cette annotation est utilisée pour les opérations DELETE (Suppression d’une ressource)
 | `@ResponseBody` | Pour envoyer un objet en réponse, généralement pour envoyer des données XML ou JSON en réponse | 
-| `@PathVariable` | Pour mapper les valeurs dynamiques de l'URI aux arguments de la méthode de gestion. @Autowired - pour les dépendances de câblage automatique dans les beans Spring |
+| `@PathVariable` | Pour mapper les valeurs dynamiques de l'URI aux arguments de la méthode de gestion. |
 | `@Qualifier` | Il permet de spécifier le nom du bean annoté Avec l'annotation @Autowired pour éviter toute confusion lorsque plusieurs instances de type bean sont présentes et ont le même nom |
 | `@Scope` | Permet de préciser le cycle de vie du bean. Elle s'applique sur une classe. Les valeurs utilisables sont : singleton (Une seule instance de ce bean sera managé), prototype (recréé une instance du bean à chaque fois qu'il est sollicité), session () et request. Ces deux dernières ne sont utilisables que dans des applications web. L'annotation @Scope permet de préciser une portée différente de singleton (Portée par défaut).  |
 | `@Configuration` | Cette annotation est utilisée dans une classe qui définit les beans |

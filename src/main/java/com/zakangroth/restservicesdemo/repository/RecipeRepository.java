@@ -28,12 +28,13 @@ public class RecipeRepository {
         return query.getResultList();
     }
 
-    public Recipe getById(Long id) {
+    public Optional<Recipe> getById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        return session.get(Recipe.class, id);
+        return Optional.of(session.get(Recipe.class, id));
     }
 
     public Optional<Long> create(Recipe recipe) {
+
         if (recipe.getId() == null) {
             Session session = entityManager.unwrap(Session.class);
             return Optional.of((long) session.save(recipe));

@@ -3,6 +3,7 @@ package com.zakangroth.restservicesdemo.services;
 import com.zakangroth.restservicesdemo.dto.RecipeDto;
 import com.zakangroth.restservicesdemo.dto.RecipeIngredientDto;
 import com.zakangroth.restservicesdemo.exceptions.ElementNotFoundException;
+import com.zakangroth.restservicesdemo.model.Ingredient;
 import com.zakangroth.restservicesdemo.model.Recipe;
 import com.zakangroth.restservicesdemo.repository.IngredientRepository;
 import com.zakangroth.restservicesdemo.repository.RecipeRepository;
@@ -31,18 +32,16 @@ public class RecipeService {
 
     @Transactional
     public Optional<RecipeDto> getById(Long id) {
+        Optional<Recipe> recipe = recipeRepository.getById(id);
 
-        Recipe recipe = recipeRepository.getById(id);
-
-        if (recipe == null) {
+        if (!recipe.isPresent()) {
             throw new ElementNotFoundException();
         }
 
-        setupIngredients(recipe);
+        setupIngredients(recipe.get());
 
-        return Optional.of(new RecipeDto(recipe));
+        return Optional.of(new RecipeDto(recipe.get()));
     }
-
 
     @Transactional
     public Optional<Long> create(RecipeDto recipeDto) {
@@ -80,7 +79,8 @@ public class RecipeService {
     private void setupIngredients(Recipe recipe) {
         recipe.getIngredients().forEach(recipeIngredient -> {
             ingredientRepository.create(recipeIngredient.getIngredient());
-            recipeIngredient.setIngredient(ingredientRepository.getById(recipeIngredient.getIngredient().getId()));
+            Optional<Ingredient> ingredient = ingredientRepository.getById(recipeIngredient.getIngredient().getId());
+            ingredient.ifPresent(recipeIngredient::setIngredient);
         });
     }
 

@@ -28,9 +28,9 @@ public class IngredientRepository {
         return query.getResultList();
     }
 
-    public Ingredient getById(Long id) {
+    public Optional<Ingredient> getById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        return session.get(Ingredient.class, id);
+        return Optional.of(session.get(Ingredient.class, id));
     }
 
     public Optional<Long> create(Ingredient ingredient) {
@@ -43,9 +43,9 @@ public class IngredientRepository {
         return Optional.empty();
     }
 
-    public Ingredient update(Ingredient ingredient) {
+    public Optional<Ingredient> update(Ingredient ingredient) {
         Session session = entityManager.unwrap(Session.class);
-        return (Ingredient) session.merge(ingredient);
+        return Optional.of((Ingredient) session.merge(ingredient));
     }
 
     public void delete(Ingredient ingredient) {

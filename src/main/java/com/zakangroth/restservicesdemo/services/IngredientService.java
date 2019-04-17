@@ -27,12 +27,13 @@ public class IngredientService {
 
     @Transactional
     public Optional<IngredientDto> getById(Long id) {
-        Ingredient ingredient = ingredientRepository.getById(id);
-        if (ingredient == null) {
+        Optional<Ingredient> ingredient = ingredientRepository.getById(id);
+
+        if (!ingredient.isPresent()) {
             throw new ElementNotFoundException();
         }
 
-        return Optional.of(new IngredientDto(ingredient));
+        return Optional.of(new IngredientDto(ingredient.get()));
     }
 
     @Transactional
@@ -43,13 +44,7 @@ public class IngredientService {
 
     @Transactional
     public Optional<Ingredient> update(IngredientDto ingredientDto) {
-
-        Ingredient ingredient = ingredientRepository.update(ingredientDto.toIngredient());
-        if (ingredient != null) {
-            return Optional.of(ingredient);
-        }
-
-        return Optional.empty();
+        return ingredientRepository.update(ingredientDto.toIngredient());
     }
 
     @Transactional

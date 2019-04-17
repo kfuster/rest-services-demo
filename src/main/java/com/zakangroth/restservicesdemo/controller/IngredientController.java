@@ -61,15 +61,13 @@ public class IngredientController {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
-
-
     }
 
     @CrossOrigin
     @PutMapping
     public ResponseEntity<Ingredient> update(@RequestBody IngredientDto ingredientDto) {
-
         Optional<Ingredient> ingredient = ingredientService.update(ingredientDto);
+
         if (ingredient.isPresent()) {
             return ResponseEntity.ok(ingredient.get());
         }
