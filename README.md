@@ -28,8 +28,22 @@ Spring Framework comporte plusieurs modules,  les principaux sont les suivants :
 #### Spring Core Container
 
 Il contient tous les éléments nécessaires à la gestion des conteneurs Spring et la gestion des Bean Spring. 
-Il est composé des modules Spring AOP : L’AOP permet de mettre en place facilement différents fonctionnalités dans une application. On appel ces applications des “Advices”. 
-Spring Core Container contient également les éléments fondamentaux pour mettre en place l’Ioc. Avec Spring, le développeur ne se soucie pas de l’instanciation des objets utilisés dans le cadre de Spring (des composants).  A travers un objet, Spring  les instancie uniquement lorsqu’il en besoin et gère lui même le cycle de ses beans. On parle alors d’injection de dépendance.
+Il est composé des modules Core, Beans, Context, Spel.
+
+* Spring Core : Fonctionnalités fondamentales en plus de l'IoC et l'injection de Dépendence.
+
+* Spring Beans : Fournit l'interface BeanFactory, et donc le framework de configuration et les fonctionnalités de base.
+
+* Spring Context : Fournit l'interface ApplicationContext, qui représente le conteneur IoC de Spring, ajoute des fonctionnalités plus "enterprise-specific".
+
+* Spring SpEl (Spring Expression Langage) : Langage d'expression de Spring.
+
+
+#### D'autres modules/frameworks importants:
+
+
+* Spring AOP : L’AOP permet de mettre en place facilement différents fonctionnalités dans une application. On appel ces applications des “Advices”. 
+
 
 Spring repose également sur le pattern Proxy. Un objet de type proxy remplace un autre objet réel. 
 Son rôle est de de  gérer la création de l’objet réel et ses accès. Tant que le client n’a pas réellement besoin de l’objet réel, le proxy ne le crée pas. L’instanciation de cet objet réel à un coût de performance très élevé. 
@@ -39,9 +53,11 @@ Son rôle est de de  gérer la création de l’objet réel et ses accès. Tant 
 
 * Spring Batch : module de gestion des opérations batch (intéressant dans le cadre de la planification de tâches par exemple)
 
-* Spring Security : module de gestion de sécurité (mécanisme d'authentification, identification, etc.) 
+* Spring Security : Framework de gestion de sécurité (mécanisme d'authentification, identification, etc.) 
 
 * Spring MVC : Spring MVC est un Framework qui permet d’implémenter des applications selon le design pattern MVC. Spring MVC se base sur le principe décrit par le schéma ci-dessous :
+
+
 #### Parcours d’une requête
 
 ![fig.1 : parcours d'une requete](https://www.tutorialspoint.com/spring/images/spring_dispatcherservlet.png)
